@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Project - Sign Up</title>
+    <style>
+        
+        body {
+         /* font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0; */
+            
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('image.png') ; /* Background image */
+           
+            background-size: cover;            /* Make the image cover the whole background */
+            background-position: center;       /* Center the image */
+            background-repeat: no-repeat;      /* Prevent image repetition */
+            height: 100vh;  
+           
+
+            
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: rgb(189, 195, 196);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            position: relative; /* Added for positioning the button */
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #555;
+        }
+        select, input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        #create-account-btn {
+       
+
+     background-color: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    margin-left: 390px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none;
+    font-size: 12px;
+    /* width: 104px; */
+    /* position: absolute;
+            
+        }
+        #create-account-btn:hover {
+            background-color: #0056b3;
+        }
+        #additional-fields {
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+        }
+        #submit-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            width: 100%;
+            font-size: 16px;
+        }
+        #submit-btn:hover {
+            background-color: #218838;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+ 
+
+
+
+    <h2>Sign Up</h2>
+
+    <!-- Role Selection -->
+    <label for="role">Select Role:</label>
+    <select id="role" onchange="toggleCreateAccountButton()">
+        <option value="">-- Select Role --</option>
+        <option value="admin">Admin</option>
+        <option value="doctor">Doctor</option>
+        <option value="user">User</option>
+    </select>
+
+     <!-- Email and Password Inputs (Always Visible) -->
+     <label for="email">Email:</label>
+     <input type="email" id="email" placeholder="Enter your email">
+ 
+     <label for="password">Password:</label>
+     <input type="password" id="password" placeholder="Enter your password">
+ 
+     <!-- Additional Input Fields for User -->
+     <div id="additional-fields">
+         <label for="name">Name:</label>
+         <input type="text" id="name" placeholder="Enter your name">
+     </div>
+
+       <!-- Submit Button (Always Visible) -->
+  <button id="submit-btn" onclick="submitForm()">Submit</button>
+      <!-- Create Account Button (Visible Only for User) -->
+   <button id="create-account-btn" onclick="showAdditionalFields()">Create Account</button>
+
+     
+</div>
+
+<script>
+    function toggleCreateAccountButton() {
+        const role = document.getElementById('role').value;
+        const createAccountButton = document.getElementById('create-account-btn');
+        const additionalFields = document.getElementById('additional-fields');
+
+        if (role === 'user') {
+            createAccountButton.style.display = 'block';
+        } else {
+            createAccountButton.style.display = 'none';
+            additionalFields.style.display = 'none';
+        }
+    }
+
+    function showAdditionalFields() {
+        const additionalFields = document.getElementById('additional-fields');
+        additionalFields.style.display = 'block';
+    }
+
+    function submitForm() {
+        const role = document.getElementById('role').value;
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        // Basic validation
+        if (!role) {
+            alert("Please select a role.");
+            return;
+        }
+        if (!email) {
+            alert("Please enter your email.");
+            return;
+        }
+        if (!password) {
+            alert("Please enter your password.");
+            return;
+        }
+
+        if (role === 'user') {
+            const name = document.getElementById('name').value.trim();
+            if (!name) {
+                alert("Please enter your name.");
+                return;
+            }
+
+            // Simulate account creation for user
+            alert(`User Account Created!\nName: ${name}\nEmail: ${email}`);
+        } else {
+            // Simulate account creation for admin or doctor
+            alert(`${capitalize(role)} Account Created!\nEmail: ${email}`);
+        }
+
+        // Reset the form after submission
+        document.getElementById('role').value = "";
+        document.getElementById('email').value = "";
+        document.getElementById('password').value = "";
+        document.getElementById('name').value = "";
+        document.getElementById('additional-fields').style.display = 'none';
+        document.getElementById('create-account-btn').style.display = 'none';
+    }
+
+    function capitalize(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+#reports {
+            background-color: #f9f9f9;
+            padding: 60px 20px;
+        }
+
+        #reports h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #reports label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        #reports input[type="file"] {
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+        #reports button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #reports button:hover {
+            background-color: #0056b3;
+        }
+
+        .report-list {
+            margin-top: 20px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .report-list li {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-list li img {
+            max-width: 100px;
+            height: auto;
+        }
+
+        .report-list li button {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .report-list li button:hover {
+            background-color: #c82333;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div id="reports" class="container">
+        <h2>Upload and Manage Medical Reports</h2>
+
+        <!-- File Upload -->
+        <label for="report-upload">Upload Medical Image:</label>
+        <input type="file" id="report-upload" accept="image/*">
+        <button onclick="uploadReport()">Upload Report</button>
+
+        <!-- Display Uploaded Reports -->
+        <ul id="report-list" class="report-list"></ul>
+    </div>
+
+
+    <script>
+        // Array to store reports
+        let reports = [];
+
+        // Function to upload and display the report
+        function uploadReport() {
+            const reportUpload = document.getElementById('report-upload');
+            const reportList = document.getElementById('report-list');
+
+            if (reportUpload.files.length === 0) {
+                alert('Please select a file to upload.');
+                return;
+            }
+
+            const file = reportUpload.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const report = {
+                    id: Date.now(),
+                    name: file.name,
+                    url: e.target.result
+                };
+                reports.push(report);
+                displayReports();
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        // Function to display the uploaded reports
+        function displayReports() {
+            const reportList = document.getElementById('report-list');
+            reportList.innerHTML = '';
+
+            reports.forEach(report => {
+                const li = document.createElement('li');
+                const img = document.createElement('img');
+                img.src = report.url;
+                img.alt = report.name;
+
+                const name = document.createElement('span');
+                name.textContent = report.name;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = () => deleteReport(report.id);
+
+                li.appendChild(img);
+                li.appendChild(name);
+                li.appendChild(deleteButton);
+                reportList.appendChild(li);
+            });
+        }
+
+        // Function to delete a report
+        function deleteReport(reportId) {
+            reports = reports.filter(report => report.id !== reportId);
+            displayReports();
+        }
+    </script>
+</body>
+</html>
